@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Walmart Search </h1>
+    <label>Search Term </label>
+    <input type="text" class="form-control" id="searchTerm" placeholder="Type Here"></input>
+    <button id="SearchButton">search</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+
+
+        $("#SearchButton").on("click", function (event) {
+            console.log("hello Walmart buyers")
+            // This way we can hit enter on the keyboard and it registers the search
+            // (in addition to clicks). Prevents the page from reloading on form submit.
+            event.preventDefault();
+            var searchTerm = $("#searchTerm").val().trim();
+            // empty the region associated with the articles
+            console.log(searchTerm);
+            // build the query URL for the ajax request to the NYT API
+            var queryURL = "http://api.walmartlabs.com/v1/search?apiKey=tk9cjy8hr64uw5kjt6c2gwew&query=" + searchTerm + "=on";
+
+            // make the AJAX request to the API - GETs the JSON data at the queryURL.
+            // the data then gets passed as an argument to the updatePage function
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) { console.log(response); });
+
+        });
+
+
+
+
+
+    </script>
+</body>
+
+</html>
+

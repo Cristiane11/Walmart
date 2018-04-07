@@ -18,44 +18,38 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
-
-
-
-        $("#SearchButton").on("click", function (event) {
+        $("#SearchButton").on("click", function(event) {
             console.log("hello Walmart buyers")
-            // This way we can hit enter on the keyboard and it registers the search
-            // (in addition to clicks). Prevents the page from reloading on form submit.
+                // This way we can hit enter on the keyboard and it registers the search
+                // (in addition to clicks). Prevents the page from reloading on form submit.
             event.preventDefault();
             var searchTerm = $("#searchTerm").val().trim();
             // empty the region associated with the articles
             console.log(searchTerm);
             // build the query URL for the ajax request to the NYT API
-            var queryURL = "https://api.walmartlabs.com/v1/search?apiKey=tk9cjy8hr64uw5kjt6c2gwew&query=" + searchTerm ;
+            var queryURL = "https://api.walmartlabs.com/v1/search?apiKey=tk9cjy8hr64uw5kjt6c2gwew&query=" + searchTerm;
 
             // make the AJAX request to the API - GETs the JSON data at the queryURL.
             // the data then gets passed as an argument to the updatePage function
             $.ajax({
                 url: queryURL,
                 method: "GET"
-            }).then(function (response) { console.log(response);
+            }).then(function(response) {
+                console.log(response);
                 for (var i = 0; i < response.items.length; i++) {
-                   var paragraph = $("p").text(response.items[i].name)
-                   paragraph.appendTo("#searchResults")
-                    
-                    }
+                    var img = $("<img>").attr("src", response.items[i].mediumImage)
+                    img.appendTo("#searchResults")
+                    var paragraph = $("<p></p>").text(response.items[i].name)
+                    paragraph.appendTo("#searchResults")
+
+                }
 
 
             });
 
 
         });
-
-
-
-
-
     </script>
 </body>
 
 </html>
-

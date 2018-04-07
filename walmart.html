@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
         $("#SearchButton").on("click", function(event) {
+
             console.log("hello Walmart buyers")
                 // This way we can hit enter on the keyboard and it registers the search
                 // (in addition to clicks). Prevents the page from reloading on form submit.
@@ -36,11 +37,15 @@
                 method: "GET"
             }).then(function(response) {
                 console.log(response);
+                $("#searchResults").empty();
                 for (var i = 0; i < response.items.length; i++) {
                     var img = $("<img>").attr("src", response.items[i].mediumImage)
-                    img.appendTo("#searchResults")
-                    var paragraph = $("<p></p>").text(response.items[i].name)
-                    paragraph.appendTo("#searchResults")
+                    var paragraph = $("<strong></strong>").html(response.items[i].name)
+                    var price = $("<h3></h3>").html("$" + response.items[i].salePrice)
+                    var itemDescription = $("<p></p>").html(response.items[i].shortDescription)
+                    var linkToProduct = $("<span>").html("<a href=" + response.items[i].productUrl + ">Click here to buy</a>");
+
+                    $("#searchResults").append(img).append("<br/>").append(paragraph).append(price).append(itemDescription).append("<br>").append(linkToProduct).append("<br>");
 
                 }
 

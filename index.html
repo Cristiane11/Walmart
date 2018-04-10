@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Walmart Search </h1>
+    <label>Search Term </label>
+    <input type="text" class="form-control" id="searchTerm" placeholder="Type Here"></input>
+    <button id="SearchButton">search</button>
+    <div id="searchResults"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("#SearchButton").on("click", function(event) {
+
+            console.log("hello Walmart buyers")
+                // This way we can hit enter on the keyboard and it registers the search
+                // (in addition to clicks). Prevents the page from reloading on form submit.
+            event.preventDefault();
+            var searchTerm = $("#searchTerm").val().trim();
+            // empty the region associated with the articles
+            console.log(searchTerm);
+            // build the query URL for the ajax request to the NYT API
+            var queryURL = "https://api.walmartlabs.com/v1/search?apiKey=tk9cjy8hr64uw5kjt6c2gwew&query=" + searchTerm;
+
+            // make the AJAX request to the API - GETs the JSON data at the queryURL.
+            // the data then gets passed as an argument to the updatePage function
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(response) {
+                console.log(response);
+                $("#searchResults").empty();
+                for (var i = 0; i < response.items.length; i++) {
+                    var img = $("<img>").attr("src", response.items[i].mediumImage)
+                    var paragraph = $("<strong></strong>").html(response.items[i].name)
+                    var price = $("<h3></h3>").html("$" + response.items[i].salePrice)
+                    var itemDescription = $("<p></p>").html(response.items[i].shortDescription)
+                    var linkToProduct = $("<span>").html("<a href=" + response.items[i].productUrl + ">Click here to buy</a>");
+
+                    $("#searchResults").append(img).append("<br/>").append(paragraph).append(price).append(itemDescription).append("<br>").append(linkToProduct).append("<br>");
+
+                }
+
+
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>
